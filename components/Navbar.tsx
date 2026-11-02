@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { useTheme } from "@/context/ThemeContext";
 import {
   BookOpen,
   Menu,
@@ -16,8 +15,6 @@ import {
   BookCheck,
   LogOut,
   User as UserIcon,
-  Sun,
-  Moon,
   ChevronDown,
 } from "lucide-react";
 
@@ -27,7 +24,6 @@ export default function Navbar() {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const pathname = usePathname();
   const { user, logout, loading } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -108,15 +104,6 @@ export default function Navbar() {
 
           {/* Right Header Actions: Theme Toggle + Auth Controls */}
           <div className="hidden items-center gap-3 md:flex">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle Theme"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-emerald-500 dark:hover:text-emerald-400 hover:border-emerald-500/40 transition-all"
-            >
-              {theme === "dark" ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4 text-slate-700" />}
-            </button>
-
             {loading ? (
               <div className="h-9 w-20 animate-pulse rounded-full bg-slate-200 dark:bg-slate-800" />
             ) : user ? (
@@ -196,13 +183,6 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 md:hidden">
-            <button
-              onClick={toggleTheme}
-              aria-label="Toggle Theme"
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300"
-            >
-              {theme === "dark" ? <Sun className="h-4 w-4 text-amber-400" /> : <Moon className="h-4 w-4" />}
-            </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300"

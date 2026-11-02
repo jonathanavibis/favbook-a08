@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BookNook | Small Online Library",
+  title: "FavBook | Modern Online Library",
   description: "A modern online library to discover, add, borrow, and return books seamlessly with real-time copy tracking.",
 };
 
@@ -21,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark">
-      <body className={`${inter.className} min-h-screen flex flex-col bg-slate-50 dark:bg-[#090d16] text-slate-900 dark:text-slate-100 antialiased`}>
+    <html lang="en" suppressHydrationWarning className="dark" data-theme="dark">
+      <body className={`${inter.className} min-h-screen flex flex-col bg-[#090d16] text-slate-100 antialiased`}>
         <ThemeProvider>
           <ToastProvider>
             <AuthProvider>
