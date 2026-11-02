@@ -12,15 +12,38 @@ import {
   Upload,
   AlertCircle,
   CheckCircle2,
+  Sparkles,
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY || "6d207e02198a847aa5a0a0333f443b32";
 
 const CATEGORIES = ["Fiction", "Science", "History", "Kids", "Others"];
+
+const PRESET_COVERS = [
+  {
+    name: "Fiction",
+    url: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&auto=format&fit=crop&q=80",
+  },
+  {
+    name: "Science",
+    url: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80",
+  },
+  {
+    name: "History",
+    url: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=600&auto=format&fit=crop&q=80",
+  },
+  {
+    name: "Kids",
+    url: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&auto=format&fit=crop&q=80",
+  },
+  {
+    name: "Novel",
+    url: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&auto=format&fit=crop&q=80",
+  },
+];
 
 export default function AddBookPage() {
   const { user, loading: authLoading, getAuthHeaders } = useAuth();
@@ -46,36 +69,73 @@ export default function AddBookPage() {
     }
   }, [user, authLoading, router, toast]);
 
-  // ImgBB Upload Handler
-  const handleImageFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Client-side image processing: converts any image to an optimized base64 format instantly
+  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please choose a valid image file (PNG, JPG, or WEBP).");
+      return;
+    }
 
     setUploadingImage(true);
     setFormError(null);
 
-    const formData = new FormData();
-    formData.append("image", file);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          const MAX_WIDTH = 700;
+          const MAX_HEIGHT = 1000;
+          let width = img.width;
+          let height = img.height;
 
-    try {
-      const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-        method: "POST",
-        body: formData,
-      });
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
 
-      const data = await res.json();
-      if (data.success && data.data?.url) {
-        setImage(data.data.url);
-        toast.success("Cover image uploaded to ImgBB successfully!");
-      } else {
-        toast.error("ImgBB upload failed. You can also paste an image URL directly.");
-      }
-    } catch (err) {
-      console.error("ImgBB upload error", err);
-      toast.error("Unable to upload image file. Please paste an image URL directly.");
-    } finally {
+          canvas.width = Math.round(width);
+          canvas.height = Math.round(height);
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const compressed = canvas.toDataURL("image/jpeg", 0.85);
+            setImage(compressed);
+            toast.success("Cover image loaded and optimized successfully!");
+          } else {
+            setImage(event.target?.result as string);
+            toast.success("Cover image loaded successfully!");
+          }
+        } catch {
+          setImage(event.target?.result as string);
+          toast.success("Cover image loaded successfully!");
+        } finally {
+          setUploadingImage(false);
+        }
+      };
+      img.onerror = () => {
+        setImage(event.target?.result as string);
+        toast.success("Cover image loaded successfully!");
+        setUploadingImage(false);
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.onerror = () => {
+      toast.error("Failed to read image file from your device.");
       setUploadingImage(false);
-    }
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -83,7 +143,7 @@ export default function AddBookPage() {
     setFormError(null);
 
     if (!title || !author || !category || !image || !description) {
-      const msg = "Please fill in all required book details.";
+      const msg = "Please fill in all required book details, including a cover image.";
       setFormError(msg);
       toast.error(msg);
       return;
@@ -211,7 +271,7 @@ export default function AddBookPage() {
                 required
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 py-3 px-4 text-xs font-semibold text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
+                className="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 py-3 px-4 text-xs font-semibold text-slate-900 dark:text-white focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all cursor-pointer"
               >
                 {CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
@@ -241,19 +301,20 @@ export default function AddBookPage() {
             </div>
           </div>
 
-          {/* Book Image: ImgBB File Upload + URL Input */}
+          {/* Book Cover Image: Upload File or Direct URL */}
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-2">
-              Book Cover Image (Upload via ImgBB or Direct URL) <span className="text-emerald-500">*</span>
+              Book Cover Image <span className="text-emerald-500">*</span>
             </label>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* File upload input */}
-              <label className="flex flex-col items-center justify-center p-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 bg-slate-50 dark:bg-slate-900 cursor-pointer transition-colors">
-                <Upload className="h-6 w-6 text-emerald-500 mb-1" />
+              <label className="flex flex-col items-center justify-center p-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 bg-slate-50 dark:bg-slate-900 cursor-pointer transition-colors group">
+                <Upload className="h-6 w-6 text-emerald-500 mb-1 group-hover:scale-110 transition-transform" />
                 <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                  {uploadingImage ? "Uploading to ImgBB..." : "Click to Upload Cover Image"}
+                  {uploadingImage ? "Processing Image..." : "Upload from Device"}
                 </span>
-                <span className="text-[10px] text-slate-400 mt-0.5">PNG, JPG, or WEBP</span>
+                <span className="text-[10px] text-slate-400 mt-0.5">PNG, JPG, or WEBP (auto-optimized)</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -264,38 +325,68 @@ export default function AddBookPage() {
               </label>
 
               {/* URL paste input */}
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-col justify-center space-y-2">
                 <div className="relative">
                   <ImageIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
                   <input
-                    type="url"
+                    type="text"
                     required
-                    placeholder="or paste image URL: https://..."
+                    placeholder="Or paste image URL (https://...)"
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
                     className="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 py-3 pl-10 pr-4 text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
                   />
                 </div>
                 {image && (
-                  <p className="mt-2 text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <p className="text-[11px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
                     <CheckCircle2 className="h-3.5 w-3.5" />
-                    Cover image ready for preview
+                    Cover image ready
                   </p>
                 )}
               </div>
             </div>
 
+            {/* Quick Sample Covers */}
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1">
+                <Sparkles className="h-3 w-3 text-amber-500" />
+                Quick Samples:
+              </span>
+              {PRESET_COVERS.map((preset) => (
+                <button
+                  key={preset.name}
+                  type="button"
+                  onClick={() => {
+                    setImage(preset.url);
+                    toast.info(`Selected "${preset.name}" sample cover.`);
+                  }}
+                  className="rounded-full border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 px-2.5 py-1 text-[10px] font-semibold text-slate-700 dark:text-slate-300 hover:border-emerald-500 hover:text-emerald-500 transition-all cursor-pointer"
+                >
+                  {preset.name}
+                </button>
+              ))}
+            </div>
+
             {/* Live Image Preview */}
             {image && (
-              <div className="mt-4 flex items-center gap-4 rounded-2xl border border-slate-200 dark:border-slate-800 p-3 bg-slate-50/50 dark:bg-slate-900/50">
+              <div className="mt-4 flex items-center gap-4 rounded-2xl border border-slate-200 dark:border-slate-800 p-3 bg-slate-50/50 dark:bg-slate-900/50 animate-in fade-in">
                 <img
                   src={image}
                   alt="Cover preview"
-                  className="h-20 w-16 rounded-xl object-cover border border-slate-300 dark:border-slate-700 shadow-md"
+                  className="h-20 w-16 rounded-xl object-cover border border-slate-300 dark:border-slate-700 shadow-md shrink-0"
                 />
-                <div className="text-xs">
+                <div className="text-xs min-w-0 flex-1">
                   <p className="font-bold text-slate-900 dark:text-white">Cover Preview</p>
-                  <p className="text-slate-400 text-[11px] truncate max-w-xs">{image}</p>
+                  <p className="text-slate-400 text-[11px] truncate max-w-md">
+                    {image.startsWith("data:") ? "Image loaded from device (Base64 optimized)" : image}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setImage("")}
+                    className="mt-1 text-[11px] font-semibold text-rose-500 hover:underline cursor-pointer"
+                  >
+                    Remove Image
+                  </button>
                 </div>
               </div>
             )}
@@ -354,7 +445,7 @@ export default function AddBookPage() {
             <button
               type="submit"
               disabled={submitting || uploadingImage}
-              className={`flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 px-8 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] transition-all ${
+              className={`flex items-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 px-8 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] transition-all cursor-pointer ${
                 submitting || uploadingImage ? "opacity-60 cursor-not-allowed" : ""
               }`}
             >
