@@ -18,7 +18,7 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string, redirectUrl?: string) => Promise<boolean>;
   register: (name: string, email: string, password: string, image?: string) => Promise<boolean>;
-  socialLogin: (userObj: { name: string; email: string; image?: string }, redirectUrl?: string) => Promise<boolean>;
+  socialLogin: (userObj: { name: string; email: string; image?: string; provider?: string }, redirectUrl?: string) => Promise<boolean>;
   logout: () => void;
   getAuthHeaders: () => Record<string, string>;
 }
@@ -127,7 +127,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const socialLogin = async (
-    userObj: { name: string; email: string; image?: string },
+    userObj: { name: string; email: string; image?: string; provider?: string },
     redirectUrl: string = "/"
   ): Promise<boolean> => {
     try {
@@ -140,7 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        toast.error(data.message || "Google authentication failed.");
+        toast.error(data.message || "Social authentication failed.");
         return false;
       }
 

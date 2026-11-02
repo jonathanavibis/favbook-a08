@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, User as UserIcon, Mail, Image as ImageIcon, Lock, ArrowRight, Check, X, AlertCircle } from "lucide-react";
+import { BookOpen, User as UserIcon, Mail, Lock, ArrowRight, Check, X, AlertCircle } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
 import SocialButtons from "@/components/SocialButtons";
@@ -10,7 +10,6 @@ import SocialButtons from "@/components/SocialButtons";
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -44,7 +43,7 @@ export default function RegisterPage() {
     }
 
     setLoading(true);
-    const success = await register(name, email, password, photoUrl);
+    const success = await register(name, email, password);
     setLoading(false);
 
     if (!success) {
@@ -107,26 +106,9 @@ export default function RegisterPage() {
               <input
                 type="email"
                 required
-                placeholder="reader@bookhype.com"
+                placeholder="reader@booknook.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 py-3 pl-10 pr-4 text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
-              />
-            </div>
-          </div>
-
-          {/* Photo-URL Field */}
-          <div>
-            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-              Photo URL <span className="text-slate-400 font-normal">(Optional)</span>
-            </label>
-            <div className="relative">
-              <ImageIcon className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
-              <input
-                type="url"
-                placeholder="https://images.unsplash.com/... or postimage"
-                value={photoUrl}
-                onChange={(e) => setPhotoUrl(e.target.value)}
                 className="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 py-3 pl-10 pr-4 text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
               />
             </div>
@@ -142,7 +124,7 @@ export default function RegisterPage() {
               <input
                 type="password"
                 required
-                placeholder="••••••••"
+                placeholder="••••••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 py-3 pl-10 pr-4 text-xs font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-all"
@@ -191,7 +173,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3.5 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:scale-[1.01] transition-all ${
+            className={`mt-2 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-400 py-3.5 text-sm font-bold text-slate-950 shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/40 hover:scale-[1.01] transition-all cursor-pointer ${
               loading ? "opacity-60 cursor-not-allowed" : ""
             }`}
           >
@@ -210,7 +192,7 @@ export default function RegisterPage() {
           </span>
         </div>
 
-        {/* Google Social Login Button */}
+        {/* Social Login Buttons (Google & GitHub) */}
         <SocialButtons redirectUrl="/" />
 
         {/* Link to Login */}
