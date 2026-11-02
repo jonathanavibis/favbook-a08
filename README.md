@@ -1,6 +1,6 @@
-# BookHype — A Small Online Library
+# BookNook — A Small Online Library
 
-> **BookHype** is a contemporary, community-driven digital library platform built with Next.js (App Router), Tailwind CSS, Express, and MongoDB Atlas. Readers can browse titles, contribute personal volumes, borrow books with real-time copy tracking, and return borrowed copies seamlessly.
+> **BookNook** is a contemporary, community-driven digital library platform built with Next.js (App Router), Tailwind CSS, Express, and MongoDB Atlas. Readers can browse titles, contribute personal volumes, borrow books with real-time copy tracking, and return borrowed copies seamlessly.
 
 - **Live Application URL**: [https://bookhive-a08.vercel.app](https://bookhive-a08.vercel.app)
 - **Client GitHub Repository**: [https://github.com/jonathanavibis/bookhive-a08](https://github.com/jonathanavibis/bookhive-a08)
