@@ -5,11 +5,12 @@ import { mongodbAdapter } from "@better-auth/mongo-adapter";
 const uri =
   process.env.MONGODB_URI ||
   process.env.MONGODB_URL ||
-  "mongodb+srv://book-admin:ViwhhsBSIAx2WgtW@cluster0.evzoqt4.mongodb.net/booknook?retryWrites=true&w=majority";
+  "";
 
 const clientOptions = {
   tlsAllowInvalidCertificates: true,
-  serverSelectionTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 8000,
+  connectTimeoutMS: 10000,
 };
 
 let client: MongoClient;
@@ -42,6 +43,20 @@ export const getDb = async () => {
   }
 };
 
+const getBaseUrl = () => {
+  if (process.env.BETTER_AUTH_URL) return process.env.BETTER_AUTH_URL;
+  if (process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes("localhost")) {
+    return process.env.NEXT_PUBLIC_APP_URL;
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  return "https://bookhive-a08.vercel.app";
+};
+
 export const auth = betterAuth({
   database: mongodbAdapter(await getDb(), {
     client: await clientPromise,
@@ -59,6 +74,6 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
     },
   },
-  secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "0Lx2fNw6YORQP4JEtzTaqkvquOBYtfy9",
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "default_fallback_secret_booknook_2026",
+  baseURL: getBaseUrl(),
 });
