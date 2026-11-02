@@ -20,7 +20,7 @@ import BookCard, { Book } from "@/components/BookCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { motion } from "framer-motion";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://bookhive-server-a08.vercel.app";
 
 export default function HomePage() {
   const [newArrivals, setNewArrivals] = useState<Book[]>([]);

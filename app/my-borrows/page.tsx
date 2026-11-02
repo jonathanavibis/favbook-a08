@@ -36,7 +36,7 @@ export interface BorrowRecord {
   status: "borrowed" | "returned";
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://bookhive-server-a08.vercel.app";
 
 export default function MyBorrowsPage() {
   const { user, loading: authLoading, getAuthHeaders } = useAuth();
