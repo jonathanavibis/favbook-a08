@@ -17,11 +17,11 @@ export default function Footer() {
                 <BookOpen className="h-6 w-6 stroke-[2.2]" />
               </div>
               <span className="text-xl font-black text-slate-900 dark:text-white">
-                Book<span className="text-emerald-500 dark:text-emerald-400">Hype</span>
+                Book<span className="text-emerald-500 dark:text-emerald-400">Nook</span>
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-              BookHype is a contemporary digital library and book sharing community. Discover bestselling literature, lend your favorite editions, borrow titles seamlessly, and return them at your own leisure.
+              BookNook is a contemporary digital library and book sharing community. Discover bestselling literature, lend your favorite editions, borrow titles seamlessly, and return them at your own leisure.
             </p>
             {/* Social Links with new X logo */}
             <div className="flex items-center gap-3.5 pt-2 text-slate-500 dark:text-slate-400">
@@ -153,9 +153,9 @@ export default function Footer() {
 
         {/* Bottom Bar: Copyright Line */}
         <div className="mt-12 border-t border-slate-200 dark:border-slate-800/80 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-500">
-          <p>© {new Date().getFullYear()} BookHype Library Platform. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} BookNook Library Platform. All rights reserved.</p>
           <p className="flex items-center gap-1.5">
-            Designed for avid readers with <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" /> by BookHype Team
+            Designed for avid readers with <Heart className="h-3.5 w-3.5 text-rose-500 fill-rose-500" /> by BookNook Team
           </p>
         </div>
       </div>

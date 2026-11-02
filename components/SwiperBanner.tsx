@@ -22,7 +22,7 @@ const slides = [
   {
     id: 2,
     title: "Share Stories & Expand Our Community Library",
-    subtitle: "Have books you cherish? Add them to the BookHype public archive and inspire fellow curious minds across the globe.",
+    subtitle: "Have books you cherish? Add them to the BookNook public archive and inspire fellow curious minds across the globe.",
     tag: "Community Driven Archive",
     image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600&auto=format&fit=crop&q=80",
     cta: "Browse Books",

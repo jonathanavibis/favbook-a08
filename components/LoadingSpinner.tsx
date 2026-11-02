@@ -2,7 +2,7 @@
 
 import { BookOpen } from "lucide-react";
 
-export default function LoadingSpinner({ text = "Loading BookHype Archive..." }: { text?: string }) {
+export default function LoadingSpinner({ text = "Loading BookNook Archive..." }: { text?: string }) {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-4 min-h-[350px]">
       <div className="relative flex items-center justify-center">

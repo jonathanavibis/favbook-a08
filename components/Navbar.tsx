@@ -73,7 +73,7 @@ export default function Navbar() {
             </div>
             <div>
               <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
-                Book<span className="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Hype</span>
+                Book<span className="bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">Nook</span>
               </span>
               <p className="text-[10px] font-semibold tracking-widest text-emerald-600 dark:text-emerald-400 uppercase hidden sm:block">
                 Small Online Library
