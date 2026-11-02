@@ -17,11 +17,11 @@ export default function Footer() {
                 <BookOpen className="h-6 w-6 stroke-[2.2]" />
               </div>
               <span className="text-xl font-black text-slate-900 dark:text-white">
-                Book<span className="text-emerald-500 dark:text-emerald-400">Nook</span>
+                Fav<span className="text-emerald-500 dark:text-emerald-400">Book</span>
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-              BookNook is a contemporary digital library and book sharing community. Discover bestselling literature, lend your favorite editions, borrow titles seamlessly, and return them at your own leisure.
+              FavBook is a contemporary digital library and book sharing community. Discover bestselling literature, lend your favorite editions, borrow titles seamlessly, and return them at your own leisure.
             </p>
             {/* Social Links with new X logo */}
             <div className="flex items-center gap-3.5 pt-2 text-slate-500 dark:text-slate-400">
