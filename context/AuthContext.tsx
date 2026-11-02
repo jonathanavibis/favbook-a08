@@ -34,22 +34,56 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const toast = useToast();
 
-  // Load session from localStorage on initial mount
+  // Load session from localStorage and BetterAuth on initial mount
   useEffect(() => {
-    try {
-      const storedToken = localStorage.getItem("bookhype_token");
-      const storedUser = localStorage.getItem("bookhype_user");
+    let isMounted = true;
 
-      if (storedToken && storedUser) {
-        setToken(storedToken);
-        setUser(JSON.parse(storedUser));
+    const restoreSession = async () => {
+      try {
+        const storedToken = localStorage.getItem("bookhype_token");
+        const storedUser = localStorage.getItem("bookhype_user");
+
+        if (storedToken && storedUser) {
+          if (isMounted) {
+            setToken(storedToken);
+            setUser(JSON.parse(storedUser));
+          }
+        } else {
+          // Check BetterAuth session (e.g. after Google or GitHub OAuth callback)
+          try {
+            const res = await fetch("/api/auth/get-session");
+            if (res.ok) {
+              const sessionData = await res.json();
+              if (sessionData?.user && isMounted) {
+                const betterUser: User = {
+                  id: sessionData.user.id || sessionData.user._id,
+                  name: sessionData.user.name || "Reader",
+                  email: sessionData.user.email,
+                  image: sessionData.user.image,
+                };
+                const sessToken = sessionData.session?.token || "better_auth_session";
+                setUser(betterUser);
+                setToken(sessToken);
+                localStorage.setItem("bookhype_token", sessToken);
+                localStorage.setItem("bookhype_user", JSON.stringify(betterUser));
+              }
+            }
+          } catch (e) {
+            console.warn("[BetterAuth Session Check Warning]:", e);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to restore session", err);
+      } finally {
+        if (isMounted) setLoading(false);
       }
-    } catch (err) {
-      console.error("Failed to restore session from localStorage", err);
-    } finally {
-      // Ensure loading state finishes so logged-in users are NEVER bounced to login on reload
-      setLoading(false);
-    }
+    };
+
+    restoreSession();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const getAuthHeaders = (): Record<string, string> => {
@@ -168,6 +202,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken(null);
     localStorage.removeItem("bookhype_token");
     localStorage.removeItem("bookhype_user");
+    // Also sign out from BetterAuth
+    fetch("/api/auth/sign-out", { method: "POST" }).catch(() => {});
     toast.info("You have been signed out of BookNook.");
     router.push("/");
   };
