@@ -168,7 +168,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken(null);
     localStorage.removeItem("bookhype_token");
     localStorage.removeItem("bookhype_user");
-    toast.info("You have been signed out of BookHype.");
+    toast.info("You have been signed out of BookNook.");
     router.push("/");
   };
 
