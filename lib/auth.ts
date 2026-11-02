@@ -54,7 +54,7 @@ const getBaseUrl = () => {
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
-  return "https://bookhive-a08.vercel.app";
+  return "https://favbook-a08.vercel.app";
 };
 
 export const auth = betterAuth({

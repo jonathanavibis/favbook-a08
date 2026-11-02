@@ -21,7 +21,7 @@ import { Book } from "@/components/BookCard";
 import BorrowModal from "@/components/BorrowModal";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://bookhive-server-a08.vercel.app";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://favbook-a08-server.vercel.app";
 
 export default function BookDetailsPage({
   params,

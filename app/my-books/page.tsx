@@ -19,7 +19,7 @@ import { Book } from "@/components/BookCard";
 import ConfirmModal from "@/components/ConfirmModal";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://bookhive-server-a08.vercel.app";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://favbook-a08-server.vercel.app";
 const CATEGORIES = ["Fiction", "Science", "History", "Kids", "Others"];
 
 export default function MyBooksPage() {

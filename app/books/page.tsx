@@ -6,7 +6,7 @@ import { Search, Filter, BookOpen, Layers } from "lucide-react";
 import BookCard, { Book } from "@/components/BookCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://bookhive-server-a08.vercel.app";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://favbook-a08-server.vercel.app";
 
 const CATEGORIES = ["All", "Fiction", "Science", "History", "Kids", "Others"];
 

@@ -4,7 +4,7 @@ const getClientBaseUrl = () => {
   if (typeof window !== "undefined" && window.location.origin) {
     return window.location.origin;
   }
-  return process.env.NEXT_PUBLIC_APP_URL || "https://bookhive-a08.vercel.app";
+  return process.env.NEXT_PUBLIC_APP_URL || "https://favbook-a08.vercel.app";
 };
 
 export const authClient = createAuthClient({
