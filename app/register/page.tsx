@@ -65,7 +65,7 @@ export default function RegisterPage() {
             Create Reader Account
           </h1>
           <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
-            Join BookHype to borrow classics, rate books, and share personal editions.
+            Join BookNook to borrow classics, rate books, and share personal editions.
           </p>
         </div>
 
@@ -215,7 +215,7 @@ export default function RegisterPage() {
 
         {/* Link to Login */}
         <p className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
-          Already have a BookHype account?{" "}
+          Already have a BookNook account?{" "}
           <Link
             href="/login"
             className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline"

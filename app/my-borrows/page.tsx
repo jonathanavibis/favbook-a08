@@ -266,7 +266,7 @@ export default function MyBorrowsPage() {
         <ConfirmModal
           isOpen={!!returningRecord}
           title="Return Borrowed Book"
-          message={`Are you ready to return "${returningRecord.bookTitle}"? This will complete your loan and restore 1 copy back into the BookHype public archive.`}
+          message={`Are you ready to return "${returningRecord.bookTitle}"? This will complete your loan and restore 1 copy back into the BookNook public archive.`}
           confirmText="Yes, Return Book"
           cancelText="Keep Reading"
           isDestructive={false}

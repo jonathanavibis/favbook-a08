@@ -55,7 +55,7 @@ function LoginForm() {
             <BookOpen className="h-6 w-6 stroke-[2.2]" />
           </div>
           <h1 className="mt-4 text-2xl font-black text-slate-900 dark:text-white">
-            Welcome Back to BookHype
+            Welcome Back to BookNook
           </h1>
           <p className="mt-1.5 text-xs text-slate-500 dark:text-slate-400">
             Sign in to borrow books, check due dates, and add new titles to our library.
@@ -146,7 +146,7 @@ function LoginForm() {
 
         {/* Link to Register */}
         <p className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
-          Don&apos;t have a BookHype account?{" "}
+          Don&apos;t have a BookNook account?{" "}
           <Link
             href="/register"
             className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline"

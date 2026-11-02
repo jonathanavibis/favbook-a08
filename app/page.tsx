@@ -18,6 +18,7 @@ import {
 import SwiperBanner from "@/components/SwiperBanner";
 import BookCard, { Book } from "@/components/BookCard";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { motion } from "framer-motion";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -90,7 +91,7 @@ export default function HomePage() {
               No Books Catalogued Yet
             </h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-              Be the first community member to add a book to the BookHype archive!
+              Be the first community member to add a book to the BookNook archive!
             </p>
             <Link
               href="/add-book"
@@ -122,7 +123,7 @@ export default function HomePage() {
               Simple 3-Step Process
             </span>
             <h2 className="mt-4 text-2xl sm:text-4xl font-black text-slate-900 dark:text-white">
-              How Borrowing Works at BookHype
+              How Borrowing Works at BookNook
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
               Borrowing reading material has never been simpler. Follow these three steps to enjoy your next literary adventure.
@@ -131,7 +132,7 @@ export default function HomePage() {
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
             {/* Step 1 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 hover:border-emerald-500/40 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.1 }} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 hover:border-emerald-500/40 transition-all shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 shadow-md shadow-emerald-500/30">
                 <Compass className="h-7 w-7 stroke-[2]" />
               </div>
@@ -144,10 +145,10 @@ export default function HomePage() {
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 Filter through our catalog by genre or author. View real-time copy availability, ratings, and reader summaries.
               </p>
-            </div>
+            </motion.div>
 
             {/* Step 2 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 hover:border-emerald-500/40 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.2 }} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 hover:border-emerald-500/40 transition-all shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-teal-500 to-cyan-400 text-slate-950 shadow-md shadow-teal-500/30">
                 <BookMarked className="h-7 w-7 stroke-[2]" />
               </div>
@@ -160,10 +161,10 @@ export default function HomePage() {
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 Log into your account, click Borrow, select your expected return date, and our system automatically deducts a copy.
               </p>
-            </div>
+            </motion.div>
 
             {/* Step 3 */}
-            <div className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 hover:border-emerald-500/40 transition-all">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.3 }} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="relative flex flex-col items-center text-center p-6 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 hover:border-emerald-500/40 transition-all shadow-sm">
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-cyan-500 to-sky-400 text-slate-950 shadow-md shadow-cyan-500/30">
                 <RotateCcw className="h-7 w-7 stroke-[2]" />
               </div>
@@ -176,7 +177,7 @@ export default function HomePage() {
               <p className="mt-2 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 Track your active books under My Borrows. When finished, hit Return to instantly replenish the copy back to readers!
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -267,14 +268,14 @@ export default function HomePage() {
               Loved by Avid Readers Everywhere
             </h2>
             <p className="mt-1 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Hear directly from readers who use BookHype to nurture their daily reading habits.
+              Hear directly from readers who use BookNook to nurture their daily reading habits.
             </p>
           </div>
 
           <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                quote: "BookHype made sharing our personal book collection effortless. Borrowing takes literally 5 seconds, and the inventory count updates in real time!",
+                quote: "BookNook made sharing our personal book collection effortless. Borrowing takes literally 5 seconds, and the inventory count updates in real time!",
                 name: "Sophia Rahman",
                 role: "Literature Enthusiast",
                 avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",

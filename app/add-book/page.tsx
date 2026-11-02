@@ -155,7 +155,7 @@ export default function AddBookPage() {
           Add a New Book
         </h1>
         <p className="mt-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-          Contribute a literary title, specify stock copies, and make it available for the BookHype community to borrow.
+          Contribute a literary title, specify stock copies, and make it available for the BookNook community to borrow.
         </p>
       </div>
 

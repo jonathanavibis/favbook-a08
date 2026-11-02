@@ -3,7 +3,7 @@ import { BookX, Home, ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "BookHype | 404 Not Found",
+  title: "BookNook | 404 Not Found",
 };
 
 export default function NotFound() {

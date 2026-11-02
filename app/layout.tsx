@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BookHype | Small Online Library",
+  title: "BookNook | Small Online Library",
   description: "A modern online library to discover, add, borrow, and return books seamlessly with real-time copy tracking.",
 };
 

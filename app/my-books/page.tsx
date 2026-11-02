@@ -427,7 +427,7 @@ export default function MyBooksPage() {
         <ConfirmModal
           isOpen={!!deletingBook}
           title="Delete Book from Library"
-          message={`Are you sure you want to delete "${deletingBook.title}"? This will permanently remove the volume and its inventory records from BookHype.`}
+          message={`Are you sure you want to delete "${deletingBook.title}"? This will permanently remove the volume and its inventory records from BookNook.`}
           confirmText="Yes, Delete Book"
           cancelText="Keep Book"
           isDestructive={true}

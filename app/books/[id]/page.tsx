@@ -62,7 +62,7 @@ export default function BookDetailsPage({
 
   const handleBorrowClick = () => {
     if (!user) {
-      toast.info("Please sign in to borrow books from BookHype.");
+      toast.info("Please sign in to borrow books from BookNook.");
       router.push(`/login?redirect=/books/${bookId}`);
       return;
     }
